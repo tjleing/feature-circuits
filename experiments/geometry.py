@@ -294,7 +294,7 @@ def analyze_concept_progression(
     return progression
 
 # Assuming you have your model and dictionaries from the attribution code
-device = 'cpu' # macos
+device = 'cuda:0' # macos
 model = LanguageModel('EleutherAI/pythia-70m-deduped', device_map=device, dispatch=True)
 
 # load submodules
@@ -423,7 +423,7 @@ class Probe(nn.Module):
 
 def train_probe(get_acts, label_idx=0, batches=get_data(), lr=1e-2, epochs=1, dim=512, seed=SEED):
     t.manual_seed(seed)
-    probe = Probe(dim).to('cpu')
+    probe = Probe(dim).to('cuda:0')
     optimizer = t.optim.AdamW(probe.parameters(), lr=lr)
     criterion = nn.BCEWithLogitsLoss()
 
